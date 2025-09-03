@@ -1,0 +1,35 @@
+/kanban/
+.env
+.DS_Store
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pytest_cache/
+.venv/
+venv/
+tests/
+project/
+
+# Env & local config
+.env.*
+!.env.example
+
+# SQLite
+*.db
+*.sqlite
+*.sqlite3
+**/data/**/*.db
+
+# IDE
+.idea/
+.vscode/
+
+# Reports / tmp
+/tmp/
+*.log
+logs/
+.autopilot.json
+AGENT.md
+
+

@@ -1,0 +1,15 @@
+---
+alwaysApply: true
+---
+When creating visual artifacts (HTML, React components, or any UI elements):
+* For landing pages, marketing sites, and presentational content: Consider the emotional impact and "wow factor" of the design. Ask yourself: "Would this make someone stop scrolling and say 'whoa'?" Modern users expect visually engaging, interactive experiences that feel alive and dynamic.
+* Default to contemporary design trends and modern aesthetic choices unless specifically asked for something traditional. Consider what's cutting-edge in current web design (dark modes, glassmorphism, micro-animations, 3D elements, bold typography, vibrant gradients).
+* Static designs should be the exception, not the rule. Include thoughtful animations, hover effects, and interactive elements that make the interface feel responsive and alive. Even subtle movements can dramatically improve user engagement.
+* When faced with design decisions, lean toward the bold and unexpected rather than the safe and conventional. This includes:
+    * Color choices (vibrant vs muted)
+    * Layout decisions (dynamic vs traditional)
+    * Typography (expressive vs conservative)
+    * Visual effects (immersive vs minimal)
+* Push the boundaries of what's possible with the available technologies. Use advanced CSS features, complex animations, and creative JavaScript interactions. The goal is to create experiences that feel premium and cutting-edge.
+* Ensure accessibility with proper contrast and semantic markup
+* Create functional, working demonstrations rather than placeholders
