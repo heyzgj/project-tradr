@@ -1,15 +1,17 @@
 # 🤖 Autonomous Trader Agent
 
-A fully autonomous crypto trading system powered by OpenAI's Agents SDK with three-agent architecture for intelligent, self-directed trading decisions.
+A sophisticated autonomous crypto trading system powered by **GPT-5-mini** with enhanced reasoning capabilities. Features advanced context engineering, three-agent architecture, and a stunning minimal dashboard for intelligent, self-directed trading decisions.
 
 ## 🌟 Features
 
-- **🧠 Three-Agent Architecture**: Planner → Trader → Judge for robust decision making
-- **🔄 Full Autonomy**: Minimal human intervention beyond safety constraints  
-- **📊 JSON-Only Communication**: Structured, validated agent interactions
-- **🛡️ Built-in Safety**: Deposit caps, idempotency, comprehensive audit trails
-- **📈 Adaptive Learning**: Memory system with strategy optimization
-- **⚡ Production Ready**: Comprehensive error handling, logging, and testing
+- **🚀 GPT-5-mini Integration**: 400k context window, 90% cost reduction, 3-4 second response times
+- **🧠 Advanced Context Engineering**: Precisely crafted contexts for optimal AI decision making
+- **🎯 Three-Agent Architecture**: Planner → Trader → Judge with sophisticated reasoning frameworks
+- **💎 Ultra-Minimal Dashboard**: Beautiful glassmorphism interface with real-time updates
+- **📊 Structured JSON Communication**: No hallucination, strict schema compliance
+- **🛡️ Enhanced Risk Management**: Automated deposit caps, constraint validation, emergency stops
+- **📈 Memory & Learning**: Experiment tracking with performance optimization
+- **⚡ Production Ready**: Comprehensive error handling, logging, and concurrent database access
 
 ## 🏗️ Architecture
 
@@ -191,23 +193,81 @@ python main.py
 /project      # Task management and status
 ```
 
-### Web Dashboard
+### 💎 Ultra-Minimal Dashboard
 
-Monitor agent activity with the built-in dashboard:
+Access your **stunning real-time dashboard** at: **http://localhost:8000**
 
 ```bash
-# Start the dashboard
-cd app/server && uvicorn web:app --reload
-
-# Or from project root
-uvicorn app.server.web:app --reload --host 0.0.0.0 --port 8000
+# Start the beautiful dashboard
+uvicorn app.server.web:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-Dashboard features:
-- **Real-time trace monitoring**: See every agent decision
-- **Trade execution history**: Complete audit trail
-- **Agent decision details**: Plan → Proposal → Verdict flow
-- **Portfolio snapshots**: Balance and P&L tracking
+**Dashboard Features**:
+- **🚀 System Status**: Live status with animated indicators (WORKING/IDLE/DORMANT)
+- **📊 Portfolio Display**: Current balances and P&L with beautiful visual design
+- **📈 Decision Timeline**: Real-time AI decision history with smooth animations
+- **🔄 Auto-Refresh**: Updates every 15 seconds automatically
+- **🌟 Modern Design**: Glassmorphism effects with animated gradient backgrounds
+- **📱 Mobile Responsive**: Perfect on all screen sizes
+
+**Decision Timeline Shows**:
+- **🧠 PLANNER**: Strategic mode decisions (OBSERVE/TRADE) 
+- **🤖 TRADER**: Market analysis and trade proposals with confidence levels
+- **⚖️ JUDGE**: Risk validation results (APPROVE/REVISE/REJECT)
+
+## 🧠 Context Engineering Architecture
+
+### Agent Context Construction
+
+Each agent receives precisely engineered context optimized for its reasoning domain:
+
+#### **Planner Agent** - Strategic Context
+- **Memory Integration**: Historical performance data and experiment results
+- **Market Regime Analysis**: Volatility assessment and trend identification  
+- **Strategy Selection**: Exploration vs exploitation balance
+- **Timing Optimization**: Dynamic wakeup interval calculation
+
+#### **Trader Agent** - Market Analysis Context
+- **Technical Indicators**: RSI levels, moving averages, volume patterns
+- **Price Action**: Support/resistance levels, momentum analysis
+- **Strategic Alignment**: Plan compliance and exploration requirements
+- **Risk Assessment**: Position sizing and confidence evaluation
+
+#### **Judge Agent** - Rule-Based Validation
+- **Constraint Checking**: Deposit caps, exchange precision limits
+- **Risk Management**: Conservative quantity adjustments
+- **Deterministic Logic**: No AI hallucination in risk validation
+
+### JSON Data Flow & Communication
+
+**Complete Decision Cycle**:
+```
+[Memory Store] → [Planner Context] → Plan JSON
+      ↓
+[Market Data] → [Trader Context] → Proposal JSON  
+      ↓
+[Risk Limits] → [Judge Validation] → Verdict JSON
+      ↓
+[Trade Execution] → [Portfolio Update] → [Memory Learning]
+```
+
+**JSON Schemas**:
+- **Plan**: `{mode: "OBSERVE|TRADE", explore_ratio: 0.0-1.0, strategies: [...], next_wakeup_secs: 30-3600}`
+- **Proposal**: `{action: "BUY|SELL|HOLD", qty: "0.001", policy_id: "strategy_name", hypothesis: "reasoning", confidence: 0.0-1.0}`  
+- **Verdict**: `{decision: "APPROVE|REVISE|REJECT", revised_qty?: "0.0001", violations?: [...], notes?: "..."}`
+
+### Trigger Mechanisms
+
+**Cycle Triggers**:
+- **Dynamic Timing**: Planner output determines next wakeup (30-3600 seconds)
+- **Market Events**: Volatility spikes, major price movements trigger immediate cycles
+- **Emergency Stops**: Drawdown limits, API failures activate safety protocols
+
+**Context Updates**:
+- Memory learning after each trade execution
+- Market data refresh before trader analysis
+- Portfolio snapshots after successful trades
+- Recovery context preservation during system failures
 
 ### Adding New Strategies
 1. Implement strategy in `tools/strategy.py`

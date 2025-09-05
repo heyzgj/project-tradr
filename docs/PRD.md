@@ -121,13 +121,47 @@ Current crypto trading bots require extensive manual configuration, lack true in
 - Configurable sleep intervals for rate limiting
 - Memory-efficient operation under 100MB RAM
 
+## 5. Dashboard & User Experience
+
+### 5.1 Ultra-Minimal Web Dashboard
+
+**What**: Real-time monitoring interface with modern glassmorphism design
+**Why**: Provides clear visibility into AI decision making without information overload
+
+**Acceptance Criteria**:
+- Ultra-minimal design showing only session status + decision history
+- Auto-refresh every 15 seconds for real-time monitoring
+- Beautiful modern aesthetics with animated gradients and smooth hover effects
+- Mobile-responsive design optimized for all screen sizes
+- Decision timeline showing 🧠 PLANNER, 🤖 TRADER, ⚖️ JUDGE actions
+
+### User Story: Dashboard Monitoring
+- **As a**: System operator
+- **I want to**: Monitor AI trading decisions through a beautiful, simple interface
+- **So that**: I can understand system behavior without technical complexity
+
+| Given | When | Then |
+|-------|------|------|
+| System is running and making decisions | User accesses dashboard at localhost:8000 | Beautiful interface shows current status, portfolio, and decision timeline with auto-refresh |
+
+### 5.2 Enhanced GPT-5-Mini Integration
+
+**What**: Advanced AI reasoning with GPT-5-mini for enhanced decision making
+**Why**: Provides 400k context window, 90% cost reduction, and 3-4 second response times
+
+**Acceptance Criteria**:
+- All agents use GPT-5-mini for enhanced reasoning capabilities
+- API calls complete in under 5 seconds (vs previous 30+ seconds)
+- Perfect structured JSON outputs without post-processing
+- Native support for complex reasoning frameworks
+
 ## 5. Out of Scope (V1)
 
-- **Token usage metering/budgeting**: No cost tracking in initial version
+- **Token usage metering/budgeting**: No cost tracking in initial version  
 - **Multiple symbol trading**: Single BTC/USDT pair only
 - **WebSocket real-time data**: REST API polling sufficient
 - **Advanced risk models**: Simple deposit cap constraint only
-- **Web UI/dashboard**: Command-line operation only
+- **Complex dashboard features**: Focus on minimal, beautiful interface only
 - **Backtesting framework**: Live trading focused
 - **Multiple exchange support**: Binance-only via CCXT
 

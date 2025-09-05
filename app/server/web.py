@@ -53,106 +53,254 @@ def _badge(text: str, color: str) -> str:
 def _css() -> str:
     return """
     <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
+      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+      
+      * { 
+        margin: 0; 
+        padding: 0; 
+        box-sizing: border-box; 
+      }
+      
       body { 
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; 
-        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-        color: white;
+        font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif; 
+        background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #0f3460 100%);
+        color: #ffffff;
         min-height: 100vh;
-        padding: 20px;
+        overflow-x: hidden;
+        position: relative;
       }
-      .container { max-width: 1200px; margin: 0 auto; }
       
-      .header { text-align: center; margin-bottom: 30px; }
-      .title { font-size: 48px; font-weight: 900; margin-bottom: 10px; }
-      .subtitle { font-size: 20px; opacity: 0.8; }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+          radial-gradient(circle at 20% 30%, rgba(0, 255, 136, 0.1) 0%, transparent 70%),
+          radial-gradient(circle at 80% 70%, rgba(255, 64, 129, 0.1) 0%, transparent 70%),
+          radial-gradient(circle at 40% 80%, rgba(64, 224, 255, 0.1) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+      }
       
-      .status-section { margin-bottom: 30px; }
-      .status-card { 
-        background: rgba(255,255,255,0.1); 
-        border-radius: 20px; 
-        padding: 30px; 
+      .container { 
+        max-width: 1000px; 
+        margin: 0 auto; 
+        padding: 40px 20px;
+        position: relative;
+        z-index: 1;
+      }
+      
+      .session-status {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        padding: 40px;
         text-align: center;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255,255,255,0.2);
+        margin-bottom: 40px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
       
-      .status-indicator { 
-        font-size: 72px; 
-        font-weight: 900; 
-        margin-bottom: 10px;
-        text-shadow: 0 0 20px rgba(255,255,255,0.5);
-      }
-      .status-working { color: #00ff88; }
-      .status-stopped { color: #ffaa00; }
-      .status-error { color: #ff4444; }
-      
-      .status-text { font-size: 24px; font-weight: 600; margin-bottom: 20px; }
-      .status-detail { font-size: 16px; opacity: 0.8; }
-      
-      .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
-      .metric-card { 
-        background: rgba(255,255,255,0.1); 
-        border-radius: 15px; 
-        padding: 25px; 
-        text-align: center;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255,255,255,0.2);
+      .session-status::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: left 0.8s ease;
       }
       
-      .metric-value { font-size: 36px; font-weight: 900; margin-bottom: 8px; }
-      .metric-label { font-size: 14px; opacity: 0.8; text-transform: uppercase; letter-spacing: 1px; }
-      .metric-change { font-size: 14px; margin-top: 5px; }
-      
-      .profit-positive { color: #00ff88; }
-      .profit-negative { color: #ff4444; }
-      .profit-neutral { color: #ffaa00; }
-      
-      .activity-section { margin-bottom: 30px; }
-      .activity-card { 
-        background: rgba(255,255,255,0.1); 
-        border-radius: 15px; 
-        padding: 25px;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255,255,255,0.2);
+      .session-status:hover::before {
+        left: 100%;
       }
       
-      .activity-title { font-size: 24px; font-weight: 700; margin-bottom: 20px; text-align: center; }
-      .activity-item { 
-        background: rgba(255,255,255,0.05); 
-        border-radius: 10px; 
-        padding: 15px; 
-        margin-bottom: 15px;
-        border-left: 4px solid #00ff88;
+      .session-status:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 60px rgba(0, 255, 136, 0.2);
+        border-color: rgba(0, 255, 136, 0.3);
       }
       
-      .activity-time { font-size: 12px; opacity: 0.6; margin-bottom: 5px; }
-      .activity-action { font-size: 16px; font-weight: 600; margin-bottom: 5px; }
-      .activity-details { font-size: 14px; opacity: 0.8; }
+      .ai-title {
+        font-size: clamp(32px, 5vw, 56px);
+        font-weight: 700;
+        background: linear-gradient(135deg, #00ff88, #40e0ff, #ff4081);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 16px;
+        animation: gradientShift 4s ease-in-out infinite;
+      }
       
-      .controls { text-align: center; margin-top: 30px; }
-      .btn { 
-        display: inline-block;
-        padding: 15px 30px;
-        margin: 0 10px;
+      @keyframes gradientShift {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+      }
+      
+      .session-info {
         font-size: 18px;
+        opacity: 0.8;
+        margin-bottom: 32px;
+        letter-spacing: 0.5px;
+      }
+      
+      .status-indicator {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 28px;
         font-weight: 600;
-        text-decoration: none;
+        padding: 16px 32px;
         border-radius: 50px;
-        transition: all 0.3s ease;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        border: none;
+        margin-bottom: 20px;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .status-working {
+        background: linear-gradient(135deg, #00ff88, #00d4aa);
+        color: #000;
+        box-shadow: 0 8px 32px rgba(0, 255, 136, 0.3);
+        animation: pulse 2s infinite;
+      }
+      
+      .status-idle {
+        background: linear-gradient(135deg, #ffb347, #ff9500);
+        color: #000;
+        box-shadow: 0 8px 32px rgba(255, 179, 71, 0.3);
+      }
+      
+      .status-error {
+        background: linear-gradient(135deg, #ff4081, #ff1744);
+        color: #fff;
+        box-shadow: 0 8px 32px rgba(255, 64, 129, 0.3);
+      }
+      
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+      }
+      
+      .status-detail {
+        font-size: 16px;
+        opacity: 0.7;
+      }
+      
+      .history-section {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        padding: 32px;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .history-title {
+        font-size: 28px;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 32px;
+        color: #fff;
+      }
+      
+      .decision-timeline {
+        max-height: 500px;
+        overflow-y: auto;
+        padding-right: 8px;
+      }
+      
+      .decision-timeline::-webkit-scrollbar {
+        width: 6px;
+      }
+      
+      .decision-timeline::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+      }
+      
+      .decision-timeline::-webkit-scrollbar-thumb {
+        background: linear-gradient(45deg, #00ff88, #40e0ff);
+        border-radius: 3px;
+      }
+      
+      .decision-item {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 16px;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         cursor: pointer;
       }
       
-      .btn-success { background: linear-gradient(45deg, #00ff88, #00cc66); color: #000; }
-      .btn-warning { background: linear-gradient(45deg, #ffaa00, #ff8800); color: #000; }
-      .btn-danger { background: linear-gradient(45deg, #ff4444, #cc2222); color: white; }
+      .decision-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(0, 255, 136, 0.3);
+        transform: translateX(8px);
+        box-shadow: 0 12px 40px rgba(0, 255, 136, 0.15);
+      }
       
-      .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+      .decision-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
       
-      .refresh-note { text-align: center; margin-top: 20px; font-size: 14px; opacity: 0.6; }
+      .decision-agent {
+        font-size: 18px;
+        font-weight: 600;
+        background: linear-gradient(45deg, #00ff88, #40e0ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .decision-time {
+        font-size: 12px;
+        opacity: 0.6;
+        font-weight: 500;
+      }
+      
+      .decision-action {
+        font-size: 16px;
+        margin-bottom: 8px;
+        line-height: 1.5;
+      }
+      
+      .decision-details {
+        font-size: 14px;
+        opacity: 0.7;
+        line-height: 1.4;
+      }
+      
+      .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        opacity: 0.6;
+      }
+      
+      .empty-state-emoji {
+        font-size: 48px;
+        margin-bottom: 16px;
+        display: block;
+      }
+      
+      @media (max-width: 768px) {
+        .container { padding: 20px 16px; }
+        .session-status { padding: 24px; }
+        .ai-title { font-size: 36px; }
+        .history-section { padding: 20px; }
+      }
     </style>
     """
 
@@ -312,6 +460,103 @@ def _format_activity_item(row) -> Optional[Dict[str, Any]]:
         pass
     return None
 
+def _get_decision_history(limit: int = 20) -> List[Dict[str, Any]]:
+    """Get decision history for the timeline."""
+    try:
+        with _connect(settings.db_path) as conn:
+            cur = conn.cursor()
+            
+            cur.execute("""
+                SELECT d.ts_utc, d.agent, d.payload_json,
+                       t.side, t.qty, t.price
+                FROM decisions d
+                LEFT JOIN trades t ON d.id = t.proposal_id
+                ORDER BY d.id DESC LIMIT ?
+            """, (limit,))
+            
+            decisions = []
+            for row in cur.fetchall():
+                decision = _format_decision_item(row)
+                if decision:
+                    decisions.append(decision)
+            
+            return decisions
+    except Exception:
+        return []
+
+def _format_decision_item(row) -> Optional[Dict[str, Any]]:
+    """Format a database row into a decision timeline item."""
+    try:
+        agent = row["agent"]
+        ts = row["ts_utc"]
+        time_str = _pretty_time(ts)
+        
+        if agent == "PLANNER":
+            payload = _safe_json_load(row["payload_json"])
+            mode = payload.get("mode", "unknown")
+            strategies = payload.get("strategies", [])
+            strategy_count = len(strategies)
+            
+            return {
+                "agent": "🧠 PLANNER",
+                "time": time_str,
+                "action": f"Decided: {mode} mode",
+                "details": f"Using {strategy_count} strateg{'ies' if strategy_count != 1 else 'y'} • {'Active trading' if mode == 'TRADE' else 'Market observation'}"
+            }
+            
+        elif agent == "TRADER":
+            payload = _safe_json_load(row["payload_json"])
+            action = payload.get("action", "unknown")
+            qty = payload.get("qty", "0")
+            confidence = payload.get("confidence", 0)
+            hypothesis = payload.get("hypothesis", "")
+            
+            if row["side"]:  # Actual trade executed
+                return {
+                    "agent": "💰 TRADER",
+                    "time": time_str,
+                    "action": f"Executed: {row['side'].upper()} {row['qty']} BTC",
+                    "details": f"Price: ${float(row['price']):,.2f} • {hypothesis[:60]}..." if len(hypothesis) > 60 else f"Price: ${float(row['price']):,.2f} • {hypothesis}"
+                }
+            else:
+                return {
+                    "agent": "🤖 TRADER", 
+                    "time": time_str,
+                    "action": f"Proposed: {action} {qty}",
+                    "details": f"Confidence: {confidence:.0%} • {hypothesis[:80]}..." if len(hypothesis) > 80 else f"Confidence: {confidence:.0%} • {hypothesis}"
+                }
+            
+        elif agent == "JUDGE":
+            payload = _safe_json_load(row["payload_json"])
+            decision = payload.get("decision", "unknown")
+            violations = payload.get("violations", [])
+            notes = payload.get("notes", "")
+            
+            if decision == "APPROVE":
+                return {
+                    "agent": "✅ JUDGE",
+                    "time": time_str, 
+                    "action": "Approved trade",
+                    "details": notes or "All risk checks passed"
+                }
+            elif decision == "REJECT":
+                return {
+                    "agent": "🚫 JUDGE",
+                    "time": time_str,
+                    "action": "Rejected trade",
+                    "details": f"{len(violations)} violation(s) • {notes or 'Safety constraints failed'}"
+                }
+            elif decision == "REVISE":
+                return {
+                    "agent": "⚠️ JUDGE", 
+                    "time": time_str,
+                    "action": "Revised trade",
+                    "details": notes or "Trade modified for safety"
+                }
+    except Exception:
+        pass
+    return None
+
 def _fetch_recent_traces(limit: int = 20) -> List[Dict[str, Any]]:
     with _connect(settings.db_path) as conn:
         cur = conn.cursor()
@@ -426,123 +671,76 @@ def _fetch_recent_traces(limit: int = 20) -> List[Dict[str, Any]]:
 
 @app.get("/", response_class=HTMLResponse)
 def home():
-    # Get system status and activity
+    # Get system status and decision history
     status_data = _get_system_status()
-    recent_activity = _get_simple_activity(5)
+    decisions = _get_decision_history(20)
     
     # Determine status styling
     status = status_data["status"]
     if status == "WORKING":
         status_class = "status-working"
-        status_emoji = "🟢"
+        status_emoji = "🚀"
     elif status == "IDLE":
-        status_class = "status-working"
-        status_emoji = "🟡" 
+        status_class = "status-idle"
+        status_emoji = "⏱️" 
     elif status == "ERROR":
         status_class = "status-error"
-        status_emoji = "🔴"
+        status_emoji = "⚠️"
     else:  # STOPPED
-        status_class = "status-stopped"
-        status_emoji = "🟠"
+        status_class = "status-idle"
+        status_emoji = "⏸️"
     
-    # Format profit/loss
-    pnl = status_data["total_pnl"]
-    if pnl > 0:
-        pnl_class = "profit-positive"
-        pnl_sign = "+"
-        pnl_emoji = "📈"
-    elif pnl < 0:
-        pnl_class = "profit-negative"
-        pnl_sign = ""
-        pnl_emoji = "📉"
-    else:
-        pnl_class = "profit-neutral"
-        pnl_sign = ""
-        pnl_emoji = "➖"
-    
-    # Build activity list
-    activity_html = ""
-    for activity in recent_activity:
-        activity_html += f"""
-        <div class="activity-item">
-            <div class="activity-time">{activity['time']}</div>
-            <div class="activity-action">{activity['action']}</div>
-            <div class="activity-details">{activity['details']}</div>
+    # Build decision timeline
+    decision_html = ""
+    for decision in decisions:
+        decision_html += f"""
+        <div class="decision-item">
+            <div class="decision-header">
+                <div class="decision-agent">{decision['agent']}</div>
+                <div class="decision-time">{decision['time']}</div>
+            </div>
+            <div class="decision-action">{decision['action']}</div>
+            <div class="decision-details">{decision['details']}</div>
         </div>
         """
     
-    if not activity_html:
-        activity_html = '<div class="activity-item"><div class="activity-action">🔍 No recent activity</div><div class="activity-details">System is quiet or just started</div></div>'
-
-    # Get portfolio info
-    portfolio = status_data["portfolio"]
-    balance_usdt = float(portfolio.get("balance_usdt", 0))
-    balance_btc = float(portfolio.get("balance_btc", 0))
+    if not decision_html:
+        decision_html = '''
+        <div class="empty-state">
+            <div class="empty-state-emoji">🤖</div>
+            <div>No decisions yet. Start the AI to see activity.</div>
+        </div>
+        '''
     
     html = f"""
-    <html>
+    <!DOCTYPE html>
+    <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>🤖 AI Crypto Trader</title>
-        <meta http-equiv="refresh" content="30">
+        <meta http-equiv="refresh" content="15">
         {_css()}
     </head>
     <body>
         <div class="container">
-            <div class="header">
-                <div class="title">🤖 AI CRYPTO TRADER</div>
-                <div class="subtitle">Trading {settings.symbol} • {settings.mode.upper()} Mode</div>
-            </div>
-            
-            <div class="status-section">
-                <div class="status-card">
-                    <div class="status-indicator {status_class}">{status_emoji} {status}</div>
-                    <div class="status-text">{status_data['status_detail']}</div>
-                    <div class="status-detail">Trades today: {status_data['trades_today']} • Safety limit: ${settings.deposit_cap_usdt}</div>
-                </div>
-            </div>
-            
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-value {pnl_class}">{pnl_emoji} {pnl_sign}${abs(pnl):.2f}</div>
-                    <div class="metric-label">Total Profit/Loss</div>
-                    <div class="metric-change">{'Making money!' if pnl > 0 else 'Losing money' if pnl < 0 else 'Even'}</div>
+            <div class="session-status">
+                <h1 class="ai-title">AI CRYPTO TRADER</h1>
+                <div class="session-info">Trading {settings.symbol} • {settings.mode.upper()} Mode</div>
+                
+                <div class="status-indicator {status_class}">
+                    <span>{status_emoji}</span>
+                    <span>{status}</span>
                 </div>
                 
-                <div class="metric-card">
-                    <div class="metric-value">💰 ${balance_usdt:.2f}</div>
-                    <div class="metric-label">Cash Balance</div>
-                    <div class="metric-change">US Dollars ready to trade</div>
-                </div>
-                
-                <div class="metric-card">
-                    <div class="metric-value">₿ {balance_btc:.6f}</div>
-                    <div class="metric-label">Bitcoin Holdings</div>
-                    <div class="metric-change">Bitcoin owned</div>
-                </div>
-                
-                <div class="metric-card">
-                    <div class="metric-value">🔄 {status_data['trades_today']}</div>
-                    <div class="metric-label">Trades Today</div>
-                    <div class="metric-change">{'Active trading' if status_data['trades_today'] > 0 else 'No trades yet'}</div>
-                </div>
+                <div class="status-detail">{status_data['status_detail']}</div>
             </div>
             
-            <div class="activity-section">
-                <div class="activity-card">
-                    <div class="activity-title">📋 What's Happening</div>
-                    {activity_html}
+            <div class="history-section">
+                <h2 class="history-title">Decision History</h2>
+                <div class="decision-timeline">
+                    {decision_html}
                 </div>
-            </div>
-            
-            <div class="controls">
-                <a href="/advanced" class="btn btn-warning">📊 Advanced View</a>
-                <a href="/" class="btn btn-success">🔄 Refresh Now</a>
-            </div>
-            
-            <div class="refresh-note">
-                Page refreshes automatically every 30 seconds
             </div>
         </div>
     </body>
